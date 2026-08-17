@@ -8,7 +8,7 @@
 - [2. Why Is JDBC Used?](#2-why-is-jdbc-used)
 - [3. JDBC Architecture](#3-jdbc-architecture)
 - [4. JDBC Driver Types](#4-jdbc-driver-types)
-- [5. Important JDBC Interfaces and Classes](#5-important-jdbc-interfaces-and-classes)
+- [5. Important Interfaces and Classes](#5-important-interfaces-and-classes)
 - [6. Basic Steps in JDBC](#6-basic-steps-in-jdbc)
 - [7. Database Connection Example](#7-database-connection-example)
 - [8. Statement](#8-statement)
@@ -27,7 +27,6 @@
 - [21. JDBC Best Practices](#21-jdbc-best-practices)
 - [22. Common JDBC Errors](#22-common-jdbc-errors)
 - [23. Frequently Asked Interview Questions](#23-frequently-asked-interview-questions)
-- [24. Quick Revision](#24-quick-revision)
 
 ## 1. What Is JDBC?
 
@@ -110,11 +109,9 @@ Directly converts JDBC calls into the database protocol.
 - Platform-independent
 - Commonly used in modern applications
 
-MySQL Connector/J is a Type 4 JDBC driver.
-
 [↑ Go to Table of Contents](#table-of-contents)
 
-## 5. Important JDBC Interfaces and Classes
+## 5. Important Interfaces and Classes
 
 | Component | Purpose |
 | --- | --- |
@@ -272,12 +269,11 @@ The first placeholder has index `1`, not `0`.
 | `setInt()` | Integer value |
 | `setLong()` | Long value |
 | `setString()` | Character value |
+| `setDouble()` | General value |
 | `setBigDecimal()` | Decimal value |
 | `setBoolean()` | Boolean value |
 | `setDate()` | SQL date |
 | `setTimestamp()` | SQL date and time |
-| `setObject()` | General value |
-| `setNull()` | SQL `NULL` |
 
 With modern JDBC drivers, Java time objects can often be passed using `setObject()`:
 
@@ -352,45 +348,6 @@ CRUD stands for:
 | Read | `SELECT` |
 | Update | `UPDATE` |
 | Delete | `DELETE` |
-
-### Insert
-
-```java
-String sql = """
-        INSERT INTO employee
-        (employee_name, salary)
-        VALUES (?, ?)
-        """;
-```
-
-### Select
-
-```java
-String sql = """
-        SELECT employee_id, employee_name, salary
-        FROM employee
-        WHERE employee_id = ?
-        """;
-```
-
-### Update
-
-```java
-String sql = """
-        UPDATE employee
-        SET salary = ?
-        WHERE employee_id = ?
-        """;
-```
-
-### Delete
-
-```java
-String sql = """
-        DELETE FROM employee
-        WHERE employee_id = ?
-        """;
-```
 
 [↑ Go to Table of Contents](#table-of-contents)
 
@@ -469,7 +426,6 @@ try {
 | `setAutoCommit(false)` | Begins manual transaction management |
 | `commit()` | Permanently saves changes |
 | `rollback()` | Cancels changes made in the transaction |
-| `setSavepoint()` | Creates an intermediate rollback point |
 
 [↑ Go to Table of Contents](#table-of-contents)
 
@@ -662,8 +618,3 @@ Unclosed resources can cause connection leaks, memory problems, and database-res
 
 Usually not. JDBC 4.0-compatible drivers are automatically discovered when their driver library is available.
 The most important JDBC flow is:
-
-```text
-Connect → Prepare SQL → Set Parameters → Execute
-        → Process Result → Commit/Rollback → Close
-```
