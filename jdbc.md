@@ -2,7 +2,7 @@
 
 > # JDBC
 
-[← 🏚️ Home](index.md) 🔸 [← Previous: Previous](previous.md) 🔸 [→ Next: Next](next.md)
+[🏚️ Home](index.md) 🔸 [⬅️ Previous](previous.md) 🔸 [➡️ Next](next.md)
 
 ## Table of Contents
 
@@ -623,4 +623,4 @@ The most important JDBC flow is:
 
 ---
 
-[← 🏚️ Home](index.md) 🔸 [← Previous: Previous](previous.md) 🔸 [→ Next: Next](next.md)
+[🏚️ Home](index.md) 🔸 [⬅️ Previous](previous.md) 🔸 [➡️ Next](next.md)
