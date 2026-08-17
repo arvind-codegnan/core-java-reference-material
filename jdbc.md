@@ -2,7 +2,7 @@
 
 > # JDBC
 
-[🏚️ Home](index.md) 🔸 [⬅️ Previous](previous.md) 🔸 [➡️ Next](next.md)
+[🏚️ Home](index.md) 🔸 [⬅️ Previous](previous.md) 🔸 [➡️ Next](nex.md)
 
 ## Table of Contents
 
