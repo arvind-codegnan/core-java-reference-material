@@ -43,6 +43,8 @@ It is a standard Java API used to connect Java applications with relational data
 
 JDBC APIs are mainly available in the `java.sql` and `javax.sql` packages.
 
+[↑ Go to Table of Contents](#table-of-contents)
+
 ## 2. Why Is JDBC Used?
 
 JDBC allows a Java application to:
@@ -53,6 +55,8 @@ JDBC allows a Java application to:
 - Execute stored procedures
 - Manage transactions
 - Process database errors
+
+[↑ Go to Table of Contents](#table-of-contents)
 
 ## 3. JDBC Architecture
 
@@ -70,6 +74,8 @@ Java Application
 ```
 
 The JDBC API provides standard interfaces, while the database-specific JDBC driver translates JDBC calls into commands understood by the database.
+
+[↑ Go to Table of Contents](#table-of-contents)
 
 ## 4. JDBC Driver Types
 
@@ -106,6 +112,8 @@ Directly converts JDBC calls into the database protocol.
 
 MySQL Connector/J is a Type 4 JDBC driver.
 
+[↑ Go to Table of Contents](#table-of-contents)
+
 ## 5. Important JDBC Interfaces and Classes
 
 | Component | Purpose |
@@ -121,6 +129,8 @@ MySQL Connector/J is a Type 4 JDBC driver.
 | `DatabaseMetaData` | Provides database information |
 | `ResultSetMetaData` | Provides information about query-result columns |
 
+[↑ Go to Table of Contents](#table-of-contents)
+
 ## 6. Basic Steps in JDBC
 
 A typical JDBC program performs the following operations:
@@ -131,6 +141,8 @@ A typical JDBC program performs the following operations:
 4. Execute an SQL command.
 5. Process the result.
 6. Close JDBC resources.
+
+[↑ Go to Table of Contents](#table-of-contents)
 
 ## 7. Database Connection Example
 
@@ -184,6 +196,8 @@ Class.forName("com.mysql.cj.jdbc.Driver");
 
 This is normally unnecessary with JDBC 4.0 and later because suitable drivers are automatically discovered.
 
+[↑ Go to Table of Contents](#table-of-contents)
+
 ## 8. Statement
 
 A `Statement` executes ordinary SQL commands.
@@ -212,6 +226,8 @@ String sql = "SELECT * FROM users WHERE username = '"
 ```
 
 This can introduce an SQL injection vulnerability.
+
+[↑ Go to Table of Contents](#table-of-contents)
 
 ## 9. PreparedStatement
 
@@ -247,6 +263,8 @@ The first placeholder has index `1`, not `0`.
 - Handles Java-to-SQL value conversion
 - May improve performance when executed repeatedly
 
+[↑ Go to Table of Contents](#table-of-contents)
+
 ## 10. Common PreparedStatement Methods
 
 | Method | SQL type |
@@ -268,6 +286,8 @@ statement.setObject(1, LocalDate.now());
 statement.setObject(2, LocalDateTime.now());
 ```
 
+[↑ Go to Table of Contents](#table-of-contents)
+
 ## 11. Statement Execution Methods
 
 | Method | Purpose | Return type |
@@ -284,6 +304,8 @@ int affectedRows = statement.executeUpdate();
 ```
 
 The returned integer normally indicates the number of affected rows.
+
+[↑ Go to Table of Contents](#table-of-contents)
 
 ## 12. ResultSet
 
@@ -317,6 +339,8 @@ resultSet.getString(2);
 ```
 
 Column names are generally easier to understand and maintain.
+
+[↑ Go to Table of Contents](#table-of-contents)
 
 ## 13. CRUD Operations
 
@@ -368,6 +392,8 @@ String sql = """
         """;
 ```
 
+[↑ Go to Table of Contents](#table-of-contents)
+
 ## 14. Generated Keys
 
 Generated primary-key values can be retrieved after an insertion.
@@ -397,6 +423,8 @@ try (PreparedStatement statement =
     }
 }
 ```
+
+[↑ Go to Table of Contents](#table-of-contents)
 
 ## 15. Transaction Management
 
@@ -443,6 +471,8 @@ try {
 | `rollback()` | Cancels changes made in the transaction |
 | `setSavepoint()` | Creates an intermediate rollback point |
 
+[↑ Go to Table of Contents](#table-of-contents)
+
 ## 16. Batch Processing
 
 Batch processing sends multiple SQL operations together.
@@ -475,6 +505,8 @@ try (PreparedStatement statement =
 
 Batch processing is useful for bulk insert, update, and delete operations.
 
+[↑ Go to Table of Contents](#table-of-contents)
+
 ## 17. CallableStatement
 
 A `CallableStatement` executes stored procedures.
@@ -495,6 +527,8 @@ try (CallableStatement statement =
     }
 }
 ```
+
+[↑ Go to Table of Contents](#table-of-contents)
 
 ## 18. Exception Handling
 
@@ -519,6 +553,8 @@ catch (SQLException exception) {
 | `getSQLState()` | Standard SQL state code |
 | `getErrorCode()` | Vendor-specific error code |
 | `getNextException()` | Next exception in the exception chain |
+
+[↑ Go to Table of Contents](#table-of-contents)
 
 ## 19. Try-With-Resources
 
@@ -546,6 +582,8 @@ Resources are normally closed in reverse order:
 2. `Statement`
 3. `Connection`
 
+[↑ Go to Table of Contents](#table-of-contents)
+
 ## 20. DriverManager vs DataSource
 
 | `DriverManager` | `DataSource` |
@@ -556,6 +594,8 @@ Resources are normally closed in reverse order:
 | Limited enterprise features | Can support transactions and managed environments |
 
 Spring Boot applications usually obtain connections through a configured `DataSource`.
+
+[↑ Go to Table of Contents](#table-of-contents)
 
 ## 21. JDBC Best Practices
 
@@ -572,6 +612,8 @@ Spring Boot applications usually obtain connections through a configured `DataSo
 - Log errors without exposing passwords or sensitive information.
 - Keep SQL and database code separate from presentation logic.
 
+[↑ Go to Table of Contents](#table-of-contents)
+
 ## 22. Common JDBC Errors
 
 | Problem | Possible reason |
@@ -583,6 +625,8 @@ Spring Boot applications usually obtain connections through a configured `DataSo
 | Parameter index out of range | Incorrect `?` placeholder index |
 | ResultSet is closed | Statement or connection was closed too early |
 | Data truncation | Java value is larger than the SQL column permits |
+
+[↑ Go to Table of Contents](#table-of-contents)
 
 ## 23. Frequently Asked Interview Questions
 
@@ -617,22 +661,6 @@ Unclosed resources can cause connection leaks, memory problems, and database-res
 ### Is Class.forName() Mandatory?
 
 Usually not. JDBC 4.0-compatible drivers are automatically discovered when their driver library is available.
-
-## 24. Quick Revision
-
-```text
-JDBC
- ├── Connection
- ├── Statement
- │    ├── Statement
- │    ├── PreparedStatement
- │    └── CallableStatement
- ├── ResultSet
- ├── Transaction Management
- ├── Batch Processing
- └── SQLException
-```
-
 The most important JDBC flow is:
 
 ```text
