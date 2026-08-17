@@ -9,7 +9,7 @@
 - [3. JDBC Architecture](#3-jdbc-architecture)
 - [4. JDBC Driver Types](#4-jdbc-driver-types)
 - [5. Important Interfaces and Classes](#5-important-interfaces-and-classes)
-- [6. Basic Steps in JDBC](#6-basic-steps-in-jdbc)
+- [6. Database Connectivity Steps](#6-database-connectivity-steps)
 - [7. Database Connection Example](#7-database-connection-example)
 - [8. Statement](#8-statement)
 - [9. PreparedStatement](#9-preparedstatement)
@@ -128,7 +128,7 @@ Directly converts JDBC calls into the database protocol.
 
 [↑ Go to Table of Contents](#table-of-contents)
 
-## 6. Basic Steps in JDBC
+## 6. Database Connectivity Steps
 
 A typical JDBC program performs the following operations:
 
