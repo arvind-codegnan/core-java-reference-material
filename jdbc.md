@@ -1,4 +1,6 @@
-# JDBC Notes for Java Freshers
+# Core Java Reference Material
+
+> # JDBC
 
 ## Table of Contents
 
