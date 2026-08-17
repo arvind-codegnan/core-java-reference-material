@@ -1,14 +1,14 @@
-# Generative AI for Java Professionals
+# Core Java Reference Material
 
-> A three-part reference material covering Artificial Intelligence Foundations, Generative AI with Java, and then with Spring.
+> A multi-part reference material covering Java.
 
 ## Target Audience
 
 The reference material is suitable for:
 
+- Learners who have no programming language experience. 
 - Learners who are Java freshers or working professionals.
-- Learners who understand basic Java syntax and object-oriented programming
-- Learners beginning AI application development
+- Learners who understand basic Java syntax and object-oriented programming.
 
 ## Prerequisites
 
@@ -27,7 +27,7 @@ Learners should understand:
 
 After completing both parts, learners should be able to:
 
-- Explain essential Generative AI concepts using Java terminology.
+- Explain essential Java concepts using Java terminology.
 - Integrate a Java application with an AI model API.
 - Design system messages, user messages, and prompt templates.
 - Convert generated output into validated Java objects.
@@ -43,9 +43,7 @@ After completing both parts, learners should be able to:
 
 | Part | Title | Main coverage |
 | --- | --- | --- |
-| 1 | [Part 1: Artificial Intelligence Foundations](artificial-intelligence-foundations.md) | AI foundations, machine learning, deep learning, neural networks, natural language processing, models, agents, limitations, and risks |
-| 2 | [Part 2: Generative AI with Java](generative-ai-with-java.md) | Generative AI foundations, prompts, tokens, structured output, embeddings, vector databases, RAG, tools, Java `HttpClient`, streaming, memory, evaluation, security, and cost |
-| 3 | [Part 3: Generative AI with Spring](generative-ai-with-spring.md) | Spring AI, `ChatClient`, advisors, JDBC chat memory, tool calling, vector stores, document ETL, RAG, PGvector, observability, testing, and MCP |
+| 1 | [Part 1: JDBC](jdbc.md) | AI foundations, machine learning, deep learning, neural networks, natural language processing, models, agents, limitations, and risks |
 
 ## Recommended Study Order
 
@@ -60,12 +58,6 @@ After completing both parts, learners should be able to:
 | Technology | Version |
 | --- | --- |
 | Java | 21 |
-| Spring Boot | 3.5.16 |
-| Spring AI | 1.1.8 |
-| AI Vector Database | PostgreSQL with PGvector |
-| AI Provider | OpenAI |
+| IDE | IntelliJ / Eclipse |
+| Database | MySQL |
 | Build tool | Maven 3.9.16 |
-
----
-
-[Part 1: Artificial Intelligence Foundations](artificial-intelligence-foundations.md) 🔸 [Part 2: Generative AI with Java](generative-ai-with-java.md) 🔸 [Part 3: Generative AI with Spring](generative-ai-with-spring.md)
