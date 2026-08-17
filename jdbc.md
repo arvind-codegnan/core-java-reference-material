@@ -2,6 +2,8 @@
 
 > # JDBC
 
+[← Home](index.md) 🔸 [← Previous: Previous](previous.md) 🔸 [→ Next: Next](next.md)
+
 ## Table of Contents
 
 - [1. What Is JDBC?](#1-what-is-jdbc)
@@ -618,3 +620,7 @@ Unclosed resources can cause connection leaks, memory problems, and database-res
 
 Usually not. JDBC 4.0-compatible drivers are automatically discovered when their driver library is available.
 The most important JDBC flow is:
+
+---
+
+[← Home](index.md) 🔸 [← Previous: Previous](previous.md) 🔸 [→ Next: Next](next.md)
