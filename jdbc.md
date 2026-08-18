@@ -2,7 +2,7 @@
 
 > # JDBC
 
-[🏚️ Home](index.md) 🔸 [⬅️ Previous](previous.md) 🔸 [➡️ Next](nex.md)
+[🏚️ Home](index.md) 🔸 [⬅️ Previous: Collections](collections.md)
 
 ## Table of Contents
 
@@ -1192,4 +1192,4 @@ Source code may be committed, copied, logged, or distributed. Credentials should
 
 ---
 
-[🏚️ Home](index.md) 🔸 [⬅️ Previous](previous.md) 🔸 [➡️ Next](next.md)
+[🏚️ Home](index.md) 🔸 [⬅️ Previous: Collections](collections.md)
