@@ -43,7 +43,6 @@ flowchart TD
     S --> HS[HashSet]
     D --> AD[ArrayDeque]
     D --> LL
-</pre>
 ```
 
 `Map` is part of the Collections Framework but does **not** extend `Collection` because it stores key-value mappings rather than individual elements.
