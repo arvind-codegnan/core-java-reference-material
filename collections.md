@@ -24,7 +24,7 @@ The framework contains:
 
 ### Core Collections Hierarchy
 
-<pre class="mermaid">
+```mermaid
 flowchart TD
     I[Iterable] --> C[Collection]
     C --> SC[SequencedCollection]
@@ -44,6 +44,7 @@ flowchart TD
     D --> AD[ArrayDeque]
     D --> LL
 </pre>
+```
 
 `Map` is part of the Collections Framework but does **not** extend `Collection` because it stores key-value mappings rather than individual elements.
 
@@ -818,6 +819,22 @@ Do not merely catch and ignore `ConcurrentModificationException`.
 🏚️ [Home](index.md) 🔸 ⬅️ Previous: [Previous](previous.md) 🔸 ➡️ Next: [JDBC](jdbc.md)
 
 <script type="module">
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-  mermaid.initialize({ startOnLoad: true });
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+
+  document.querySelectorAll("pre > code.language-mermaid").forEach((code) => {
+    const diagram = document.createElement("pre");
+    diagram.className = "mermaid";
+    diagram.textContent = code.textContent;
+    code.parentElement.replaceWith(diagram);
+  });
+
+  mermaid.initialize({
+    startOnLoad: false,
+    securityLevel: "strict",
+    theme: window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "default"
+  });
+
+  await mermaid.run({ querySelector: ".mermaid" });
 </script>
