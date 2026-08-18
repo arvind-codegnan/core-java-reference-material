@@ -2,11 +2,7 @@
 
 > # Threads and Multithreading
 
-🏚️ [Home](index.md) 🔸 ⬅️ Previous: [JDBC](jdbc.md)
-
-**Target audience:** Java freshers  
-**Recommended Java version:** Java 21  
-**Purpose:** Concept learning, classroom revision, hands-on practice, and interview preparation
+🏚️ [Home](index.md) 🔸 ⬅️ Previous: [Previous](previous.md) 🔸 ➡️ Next: [Collections](collections.md)
 
 ## Table of Contents
 
@@ -1704,7 +1700,7 @@ Every structural write copies its internal array. It is appropriate for read-hea
 
 ---
 
-🏚️ [Home](index.md) 🔸 ⬅️ Previous: [JDBC](jdbc.md)
+🏚️ [Home](index.md) 🔸 ⬅️ Previous: [Previous](previous.md) 🔸 ➡️ Next: [Collections](collections.md)
 
 <!-- Mermaid rendering support for GitHub Pages/Jekyll. -->
 <script type="module">
