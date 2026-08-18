@@ -4,7 +4,10 @@
 
 [🏚️ Home](index.md) 🔸 [⬅️ Previous](previous.md) 🔸 [➡️ Next: JDBC](jdbc.md)
 
----
+## Table of Contents
+
+1. [Java Collections Framework at a Glance](#1-java-collections-framework-at-a-glance)
+2. [Frequently Asked Interview Questions](#2-frequently-asked-interview-questions) — Questions 1–10
 
 ## 1. Java Collections Framework at a Glance
 
@@ -75,6 +78,8 @@ flowchart TD
     E -->|Insertion order| LHS[LinkedHashSet]
     E -->|Sorted| TS[TreeSet]
 ```
+
+[↑ Go to Table of Contents](#table-of-contents)
 
 ## 2. Frequently Asked Interview Questions
 
@@ -805,6 +810,8 @@ First, identify whether the same collection is structurally modified during iter
 - use a suitable concurrent collection when the access is genuinely concurrent.
 
 Do not merely catch and ignore `ConcurrentModificationException`.
+
+[↑ Go to Table of Contents](#table-of-contents)
 
 ---
 
