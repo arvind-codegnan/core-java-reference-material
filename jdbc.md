@@ -619,7 +619,8 @@ Unclosed resources can cause connection leaks, memory problems, and database-res
 ### Is Class.forName() Mandatory?
 
 Usually not. JDBC 4.0-compatible drivers are automatically discovered when their driver library is available.
-The most important JDBC flow is:
+
+[↑ Go to Table of Contents](#table-of-contents)
 
 ---
 
