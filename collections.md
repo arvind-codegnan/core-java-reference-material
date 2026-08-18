@@ -2,7 +2,7 @@
 
 > # Collections
 
-🏚️ [Home](index.md) 🔸 ⬅️ Previous: [Threads](previous.md) 🔸 ➡️ Next: [JDBC](jdbc.md)
+🏚️ [Home](index.md) 🔸 ⬅️ Previous: [Threads](threads.md) 🔸 ➡️ Next: [JDBC](jdbc.md)
 
 ## Table of Contents
 
@@ -815,7 +815,7 @@ Do not merely catch and ignore `ConcurrentModificationException`.
 
 ---
 
-🏚️ [Home](index.md) 🔸 ⬅️ Previous: [Previous](previous.md) 🔸 ➡️ Next: [JDBC](jdbc.md)
+🏚️ [Home](index.md) 🔸 ⬅️ Previous: [Threads](threads.md) 🔸 ➡️ Next: [JDBC](jdbc.md)
 
 <script type="module">
   import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
