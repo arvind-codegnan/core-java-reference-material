@@ -588,7 +588,7 @@ Spring Boot applications usually obtain connections through a configured `DataSo
 
 ## 23. Frequently Asked Interview Questions
 
-> ### Fundamental JDBC Interview Questions
+> ### Fundamental Questions
 
 ### What is JDBC?
 
