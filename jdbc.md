@@ -6,29 +6,29 @@
 
 ## Table of Contents
 
-- [1. What Is JDBC?](#1-what-is-jdbc)
-- [2. Why Is JDBC Used?](#2-why-is-jdbc-used)
-- [3. JDBC Architecture](#3-jdbc-architecture)
-- [4. JDBC Driver Types](#4-jdbc-driver-types)
-- [5. Important Interfaces and Classes](#5-important-interfaces-and-classes)
-- [6. Database Connectivity Steps](#6-database-connectivity-steps)
-- [7. Database Connection Example](#7-database-connection-example)
-- [8. Statement](#8-statement)
-- [9. PreparedStatement](#9-preparedstatement)
-- [10. Common PreparedStatement Methods](#10-common-preparedstatement-methods)
-- [11. Statement Execution Methods](#11-statement-execution-methods)
-- [12. ResultSet](#12-resultset)
-- [13. CRUD Operations](#13-crud-operations)
-- [14. Generated Keys](#14-generated-keys)
-- [15. Transaction Management](#15-transaction-management)
-- [16. Batch Processing](#16-batch-processing)
-- [17. CallableStatement](#17-callablestatement)
-- [18. Exception Handling](#18-exception-handling)
-- [19. Try-With-Resources](#19-try-with-resources)
-- [20. DriverManager vs DataSource](#20-drivermanager-vs-datasource)
-- [21. JDBC Best Practices](#21-jdbc-best-practices)
-- [22. Common JDBC Errors](#22-common-jdbc-errors)
-- [23. Frequently Asked Interview Questions](#23-frequently-asked-interview-questions)
+1. [What Is JDBC?](#1-what-is-jdbc)
+2. [Why Is JDBC Used?](#2-why-is-jdbc-used)
+3. [JDBC Architecture](#3-jdbc-architecture)
+4. [JDBC Driver Types](#4-jdbc-driver-types)
+5. [Important Interfaces and Classes](#5-important-interfaces-and-classes)
+6. [Database Connectivity Steps](#6-database-connectivity-steps)
+7. [Database Connection Example](#7-database-connection-example)
+8. [Statement](#8-statement)
+9. [PreparedStatement](#9-preparedstatement)
+10. [Common PreparedStatement Methods](#10-common-preparedstatement-methods)
+11. [Statement Execution Methods](#11-statement-execution-methods)
+12. [ResultSet](#12-resultset)
+13. [CRUD Operations](#13-crud-operations)
+14. [Generated Keys](#14-generated-keys)
+15. [Transaction Management](#15-transaction-management)
+16. [Batch Processing](#16-batch-processing)
+17. [CallableStatement](#17-callablestatement)
+18. [Exception Handling](#18-exception-handling)
+19. [Try-With-Resources](#19-try-with-resources)
+20. [DriverManager vs DataSource](#20-drivermanager-vs-datasource)
+21. [JDBC Best Practices](#21-jdbc-best-practices)
+22. [Common JDBC Errors](#22-common-jdbc-errors)
+23. [Frequently Asked Interview Questions](#23-frequently-asked-interview-questions)
 
 ## 1. What Is JDBC?
 
@@ -585,20 +585,21 @@ Spring Boot applications usually obtain connections through a configured `DataSo
 
 ## 23. Frequently Asked Interview Questions
 
-> ### Fundamental Questions
+> [!Note]
+> Fundamental Questions
 
 ### What is JDBC?
 
-JDBC is a standard Java API for interacting with relational databases. It allows a Java program to:
-
-- establish a database connection;
-- send SQL statements;
-- read query results;
-- perform insert, update, and delete operations;
-- call stored procedures; and
-- control database transactions.
-
-JDBC is an API, not a database and not a driver. The database vendor normally supplies the JDBC driver implementation.
+>JDBC is a standard Java API for interacting with relational databases. It allows a Java program to:
+>
+>- establish a database connection;
+>- send SQL statements;
+>- read query results;
+>- perform insert, update, and delete operations;
+>- call stored procedures; and
+>- control database transactions.
+>
+>JDBC is an API, not a database and not a driver. The database vendor normally supplies the JDBC driver implementation.
 
 ### Why is JDBC required?
 
