@@ -61,17 +61,14 @@ JDBC allows a Java application to:
 
 ## 3. JDBC Architecture
 
-```text
-Java Application
-       |
-       v
-    JDBC API
-       |
-       v
-  JDBC Driver
-       |
-       v
-    Database
+```mermaid
+flowchart TD
+    A[Java code] --> B[JDBC API]
+    B --> C[JDBC driver]
+    C --> D[(Database)]
+    D --> C
+    C --> B
+    B --> A
 ```
 
 The JDBC API provides standard interfaces, while the database-specific JDBC driver translates JDBC calls into commands understood by the database.
@@ -1193,3 +1190,24 @@ Source code may be committed, copied, logged, or distributed. Credentials should
 ---
 
 🏚️ [Home](index.md) 🔸 ⬅️ Previous: [Collections](collections.md)
+
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+
+  document.querySelectorAll("pre > code.language-mermaid").forEach((code) => {
+    const diagram = document.createElement("pre");
+    diagram.className = "mermaid";
+    diagram.textContent = code.textContent;
+    code.parentElement.replaceWith(diagram);
+  });
+
+  mermaid.initialize({
+    startOnLoad: false,
+    securityLevel: "strict",
+    theme: window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "default"
+  });
+
+  await mermaid.run({ querySelector: ".mermaid" });
+</script>
