@@ -7,7 +7,7 @@
 ## Table of Contents
 
 1. [Java Collections Framework at a Glance](#1-java-collections-framework-at-a-glance)
-2. [Frequently Asked Interview Questions](#2-frequently-asked-interview-questions) — Questions 1–10
+2. [Frequently Asked Interview Questions](#2-frequently-asked-interview-questions)
 
 ## 1. Java Collections Framework at a Glance
 
