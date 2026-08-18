@@ -1,8 +1,8 @@
-# Java Collections Framework Interview Questions, Answers, and Diagrams
+# Core Java Reference Material
 
-**Target audience:** Java freshers  
-**Recommended Java version:** Java 21  
-**Purpose:** Interview preparation, classroom revision, and viva practice
+> # Collections
+
+[🏚️ Home](index.md) 🔸 [⬅️ Previous](previous.md) 🔸 [➡️ Next](nex.md)
 
 ---
 
