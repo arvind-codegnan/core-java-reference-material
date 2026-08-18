@@ -1,10 +1,5 @@
 # Core Java Reference Material
 
-<script>
-  import mermaid from 'https://jsdelivr.net';
-  mermaid.initialize({ startOnLoad: true });
-</script>
-
 > # Collections
 
 🏚️ [Home](index.md) 🔸 ⬅️ Previous: [Previous](previous.md) 🔸 ➡️ Next: [JDBC](jdbc.md)
