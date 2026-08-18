@@ -1,3 +1,8 @@
+<script type="module">
+  import mermaid from 'https://jsdelivr.net';
+  mermaid.initialize({ startOnLoad: true });
+</script>
+
 # Core Java Reference Material
 
 > # Collections
