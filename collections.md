@@ -829,10 +829,7 @@ Do not merely catch and ignore `ConcurrentModificationException`.
 
   mermaid.initialize({
     startOnLoad: false,
-    securityLevel: "strict",
-    theme: window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "default"
+    securityLevel: "strict"
   });
 
   await mermaid.run({ querySelector: ".mermaid" });
