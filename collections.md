@@ -1,6 +1,6 @@
 # Core Java Reference Material
 
-<script type="module">
+<script>
   import mermaid from 'https://jsdelivr.net';
   mermaid.initialize({ startOnLoad: true });
 </script>
