@@ -14,7 +14,8 @@ The reference material is suitable for:
 
 | Part | Title | Main coverage |
 | --- | --- | --- |
-| 1 | [JDBC](jdbc.md) | Connection, Statement, PreparedStatement, ResultSet, Transaction Management, Batch Updates, Exception Handling, and CRUD Operations |
+| 1 | [Collections](collections.md) | Collection, Set, List, Queue, Map, Iterator, and Collections |
+| 2 | [JDBC](jdbc.md) | Connection, Statement, PreparedStatement, ResultSet, Transaction Management, Batch Updates, Exception Handling, and CRUD Operations |
 
 ## Technology Baseline
 
