@@ -1203,10 +1203,7 @@ Source code may be committed, copied, logged, or distributed. Credentials should
 
   mermaid.initialize({
     startOnLoad: false,
-    securityLevel: "strict",
-    theme: window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "default"
+    securityLevel: "strict"
   });
 
   await mermaid.run({ querySelector: ".mermaid" });
