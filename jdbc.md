@@ -589,16 +589,16 @@ Spring Boot applications usually obtain connections through a configured `DataSo
 
 ### What is JDBC?
 
->JDBC is a standard Java API for interacting with relational databases. It allows a Java program to:
->
->- establish a database connection;
->- send SQL statements;
->- read query results;
->- perform insert, update, and delete operations;
->- call stored procedures; and
->- control database transactions.
->
->JDBC is an API, not a database and not a driver. The database vendor normally supplies the JDBC driver implementation.
+JDBC is a standard Java API for interacting with relational databases. It allows a Java program to:
+
+- establish a database connection;
+- send SQL statements;
+- read query results;
+- perform insert, update, and delete operations;
+- call stored procedures; and
+- control database transactions.
+
+JDBC is an API, not a database and not a driver. The database vendor normally supplies the JDBC driver implementation.
 
 ### Why is JDBC required?
 
