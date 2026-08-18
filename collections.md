@@ -24,7 +24,7 @@ The framework contains:
 
 ### Core Collections Hierarchy
 
-```mermaid
+<pre class="mermaid">
 flowchart TD
     I[Iterable] --> C[Collection]
     C --> SC[SequencedCollection]
@@ -43,7 +43,7 @@ flowchart TD
     S --> HS[HashSet]
     D --> AD[ArrayDeque]
     D --> LL
-```
+</pre>
 
 `Map` is part of the Collections Framework but does **not** extend `Collection` because it stores key-value mappings rather than individual elements.
 
