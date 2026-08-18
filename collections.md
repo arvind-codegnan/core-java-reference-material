@@ -2,7 +2,7 @@
 
 > # Collections
 
-🏚️ [Home](index.md) 🔸 ⬅️ [Previous](previous.md) 🔸 ➡️ Next: [JDBC](jdbc.md)
+🏚️ [Home](index.md) 🔸 ⬅️ Previous: [Previous](previous.md) 🔸 ➡️ Next: [JDBC](jdbc.md)
 
 ## Table of Contents
 
@@ -815,4 +815,4 @@ Do not merely catch and ignore `ConcurrentModificationException`.
 
 ---
 
-[🏚️ Home](index.md) 🔸 [⬅️ Previous](previous.md) 🔸 [➡️ Next: JDBC](jdbc.md)
+🏚️ [Home](index.md) 🔸 ⬅️ Previous: [Previous](previous.md) 🔸 ➡️ Next: [JDBC](jdbc.md)
