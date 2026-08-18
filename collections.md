@@ -76,7 +76,9 @@ flowchart TD
     E -->|Sorted| TS[TreeSet]
 ```
 
-> ### Fundamental Collections Interview Questions
+## 2. Frequently Asked Interview Questions
+
+> ### Fundamental Questions
 
 ### What is the Java Collections Framework?
 
