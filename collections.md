@@ -2,7 +2,7 @@
 
 > # Collections
 
-[🏚️ Home](index.md) 🔸 [⬅️ Previous](previous.md) 🔸 [➡️ Next: JDBC](jdbc.md)
+<center>[🏚️ Home](index.md) 🔸 [⬅️ Previous](previous.md) 🔸 [➡️ Next: JDBC](jdbc.md)</center>
 
 ## Table of Contents
 
