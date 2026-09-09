@@ -14,8 +14,10 @@ The reference material is suitable for:
 
 | Part | Title | Main coverage |
 | --- | --- | --- |
+| # | [Variables and Datatypes](variablesdatatypes.md) | ... |
 | # | [Operators](operators.md) | ... |
-| # | [Control Flow Statement](controlflowstatements.md) | ... |
+| # | [Expressions, Statements, and Blocks](expressionsstatementsblocks.md) | ... |
+| # | [Control Flow Statements](controlflowstatements.md) | ... |
 | # | [Threads](threads.md) | Thread, Runnable, Multithreading, Inter-Thread Communication, Thread Life Cycle, and Synchronization |
 | # | [Collections](collections.md) | Collection, Set, List, Queue, Map, Iterator, and Collections |
 | # | [JDBC](jdbc.md) | Connection, Statement, PreparedStatement, ResultSet, Transaction Management, Batch Updates, Exception Handling, and CRUD Operations |
