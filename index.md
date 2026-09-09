@@ -14,9 +14,11 @@ The reference material is suitable for:
 
 | Part | Title | Main coverage |
 | --- | --- | --- |
-| 1 | [Threads](threads.md) | Thread, Runnable, Multithreading, Inter-Thread Communication, Thread Life Cycle, and Synchronization |
-| 2 | [Collections](collections.md) | Collection, Set, List, Queue, Map, Iterator, and Collections |
-| 3 | [JDBC](jdbc.md) | Connection, Statement, PreparedStatement, ResultSet, Transaction Management, Batch Updates, Exception Handling, and CRUD Operations |
+| # | [Operators](operators.md) | ... |
+| # | [Control Flow Statement](controlflowstatements.md) | ... |
+| # | [Threads](threads.md) | Thread, Runnable, Multithreading, Inter-Thread Communication, Thread Life Cycle, and Synchronization |
+| # | [Collections](collections.md) | Collection, Set, List, Queue, Map, Iterator, and Collections |
+| # | [JDBC](jdbc.md) | Connection, Statement, PreparedStatement, ResultSet, Transaction Management, Batch Updates, Exception Handling, and CRUD Operations |
 
 ## Technology Baseline
 
