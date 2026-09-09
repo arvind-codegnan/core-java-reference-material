@@ -1,6 +1,6 @@
 # Core Java Reference Material
 
-> # Operators in Java
+> # Operators and Expressions in Java 21
 
 🏚️ [Home](index.md) 🔸 ⬅️ Previous: [Variables and Data Types](variables.md) 🔸 ➡️ Next: [Control Flow Statements](control-flow.md)
 
@@ -34,14 +34,38 @@
 26. [Operator Examples in Conditions](#26-operator-examples-in-conditions)
 27. [Practical Operator Programs](#27-practical-operator-programs)
 28. [Operators That Java Does Not Support](#28-operators-that-java-does-not-support)
-29. [Operators Best Practices](#29-operators-best-practices)
-30. [Common Operator Errors](#30-common-operator-errors)
-31. [Quick Revision Tables](#31-quick-revision-tables)
-32. [Frequently Asked Interview Questions](#32-frequently-asked-interview-questions)
+29. [Complete Java 21 Operator Token List](#29-complete-java-21-operator-token-list)
+30. [Lambda Expressions and Method References](#30-lambda-expressions-and-method-references)
+31. [Switch Expressions Through Java 21](#31-switch-expressions-through-java-21)
+32. [Pattern Matching and Record Patterns in Java 21](#32-pattern-matching-and-record-patterns-in-java-21)
+33. [Java 21 Preview Features Related to Expressions](#33-java-21-preview-features-related-to-expressions)
+34. [Java Version Timeline for Operators and Expressions](#34-java-version-timeline-for-operators-and-expressions)
+35. [Operators Best Practices](#35-operators-best-practices)
+36. [Common Operator Errors](#36-common-operator-errors)
+37. [Quick Revision Tables](#37-quick-revision-tables)
+38. [Frequently Asked Interview Questions](#38-frequently-asked-interview-questions)
+39. [Official Java 21 References](#39-official-java-21-references)
 
 ## 1. What Is an Operator?
 
 An **operator** is a symbol that tells Java to perform an operation on one, two, or three values. The values on which an operator acts are called **operands**.
+
+### Java version scope
+
+This chapter targets **Java SE 21**. It covers:
+
+- all operator tokens and operator expressions defined by Java SE 21;
+- operator behavior for primitive values, references, strings, wrappers, and arrays;
+- Java 8 lambda expressions and method references;
+- Java 14 switch expressions;
+- Java 16 pattern matching for `instanceof`;
+- Java 17 always-strict floating-point evaluation;
+- Java 21 record patterns and pattern matching for `switch`; and
+- relevant Java 21 preview features in a separate, clearly marked section.
+
+Most basic operators existed long before Java 21 and behave the same in older Java releases. The newer sections identify their required Java versions. Preview features are not part of the permanent Java SE 21 language unless preview mode is enabled.
+
+This is an **operators and expressions** chapter. Unrelated Java 21 platform features—such as virtual threads, sequenced collections, and new APIs—belong in their own chapters.
 
 ```java
 int total = price + tax;
@@ -125,6 +149,7 @@ flowchart TD
 | Conditional | `?:` |
 | Type comparison | `instanceof` |
 | String concatenation | `+` |
+| Lambda arrow | `->` |
 
 The same symbol can have different meanings based on its operands. For example, `+` can add numbers, apply unary plus, or concatenate strings.
 
@@ -133,6 +158,8 @@ int sum = 10 + 5;                    // numeric addition
 int positive = +sum;                 // unary plus
 String message = "Total: " + sum;    // string concatenation
 ```
+
+Java SE 21 defines **38 lexical operator tokens**. The arrow token `->` is included because it is used in lambda expressions and switch rules. The keyword `instanceof` behaves as a relational operator even though it is lexically a keyword. The method-reference token `::` is formally a separator rather than an operator.
 
 [↑ Go to Table of Contents](#table-of-contents)
 
@@ -160,6 +187,9 @@ The following table is ordered from highest to lowest precedence.
 | 12 | `||` | Short-circuit OR | Left to right |
 | 13 | `?:` | Conditional operator | Right to left |
 | 14 | `=`, `+=`, `-=`, `*=`, `/=`, `%=`, `&=`, `^=`, `|=`, `<<=`, `>>=`, `>>>=` | Assignment | Right to left |
+| 15 | `->` | Lambda arrow | Right to left |
+
+The `->` token also introduces a switch rule, but a switch-rule arrow is part of switch syntax rather than a binary operation on two operands. Method references such as `String::length` are primary expressions and bind tightly, even though `::` is not classified as an operator token.
 
 ### Precedence example
 
@@ -216,6 +246,8 @@ int answer = show("left", 2) + show("middle", 3) * show("right", 4);
 The method calls print `left`, `middle`, and `right` in that order. The multiplication result is still used before the addition result is produced.
 
 Use parentheses when an expression's meaning is not immediately obvious, even if precedence already gives the intended result.
+
+Primary expressions—such as method calls, field access, array access, object creation, method references, and parenthesized expressions—bind more tightly than the operator levels in the table. Cast expressions group with unary expressions. The punctuation used by these forms, including `.`, `[]`, `()`, and `::`, is not part of Java SE 21's lexical operator-token list.
 
 [↑ Go to Table of Contents](#table-of-contents)
 
@@ -346,6 +378,12 @@ System.out.println(first.add(second)); // 0.3
 ```
 
 `BigDecimal` uses methods such as `add()`, `subtract()`, `multiply()`, and `divide()` rather than arithmetic operators.
+
+### Always-strict floating-point evaluation in Java 17+
+
+Since Java 17, every floating-point expression is evaluated strictly according to its declared `float` or `double` precision. Java 21 therefore does not use wider, platform-dependent intermediate values.
+
+The `strictfp` modifier remains accepted for compatibility, but it no longer changes floating-point expression evaluation and is considered obsolete in Java 21.
 
 [↑ Go to Table of Contents](#table-of-contents)
 
@@ -678,6 +716,17 @@ boolean closeEnough = Math.abs(actual - expected) < tolerance;
 
 Choose a tolerance appropriate for the application's scale and requirements.
 
+`NaN` is unequal to every numeric value, including itself. Positive and negative floating-point zero compare equal with `==`, even though some later operations distinguish their signs.
+
+```java
+System.out.println(Double.NaN == Double.NaN); // false
+System.out.println(+0.0 == -0.0);             // true
+System.out.println(1.0 / +0.0);               // Infinity
+System.out.println(1.0 / -0.0);               // -Infinity
+```
+
+Wrapper equality is deliberately different in two cases: `Double.valueOf(Double.NaN).equals(Double.NaN)` is `true`, while `Double.valueOf(+0.0).equals(-0.0)` is `false`. Choose primitive or wrapper comparison intentionally.
+
 [↑ Go to Table of Contents](#table-of-contents)
 
 ## 15. Logical Operators
@@ -864,6 +913,21 @@ byte value = 4;
 int shifted = value << 1;
 ```
 
+### Unsigned operations on signed storage
+
+Java's integer primitive types other than `char` are signed, but Java 8 and later provide utilities that interpret `int` or `long` bits as unsigned values.
+
+```java
+int bits = -1; // all 32 bits are 1
+
+System.out.println(Integer.toUnsignedString(bits)); // 4294967295
+System.out.println(Integer.compareUnsigned(bits, 1) > 0); // true
+System.out.println(Integer.divideUnsigned(bits, 2));      // 2147483647
+System.out.println(Integer.remainderUnsigned(bits, 2));   // 1
+```
+
+These methods do not create a new unsigned primitive type. They reinterpret the existing bit pattern for a particular operation.
+
 [↑ Go to Table of Contents](#table-of-contents)
 
 ## 19. Conditional Ternary Operator
@@ -944,9 +1008,9 @@ if (value instanceof String) {
 }
 ```
 
-### Pattern matching for `instanceof`
+### Pattern matching for `instanceof` — standard since Java 16
 
-Modern Java can combine the test and cast:
+Java 16 made type patterns for `instanceof` a permanent feature. The test and cast can be combined:
 
 ```java
 if (value instanceof String text) {
@@ -964,6 +1028,24 @@ if (value instanceof String text && !text.isBlank()) {
 
 The short-circuit `&&` makes `text` safely available in the right operand.
 
+Java uses **flow scoping**: the pattern variable is in scope only where the compiler can prove the pattern matched.
+
+```java
+if (!(value instanceof String text)) {
+    return;
+}
+
+// The method continued only when the pattern matched.
+System.out.println(text.length());
+```
+
+This does not work with `||` in the same way because the right operand may execute when the pattern did not match:
+
+```java
+// Compile-time error: text is not definitely matched on the right side
+// if (value instanceof String text || text.isBlank()) { }
+```
+
 ### Generics restriction
 
 Because of type erasure, a parameterized type such as `List<String>` generally cannot be the target of an `instanceof` test. Use a reifiable type such as `List<?>`.
@@ -973,6 +1055,8 @@ if (value instanceof java.util.List<?>) {
     System.out.println("The value is a list");
 }
 ```
+
+Java 21 also permits a **record pattern** as the right operand of `instanceof`, allowing a record to be tested and deconstructed in one expression. See [Section 32](#32-pattern-matching-and-record-patterns-in-java-21).
 
 [↑ Go to Table of Contents](#table-of-contents)
 
@@ -986,6 +1070,17 @@ int version = 21;
 
 String message = language + " " + version;
 System.out.println(message); // Java 21
+```
+
+Text blocks, permanent since Java 15, are still `String` values and work with the same `+` operator.
+
+```java
+String query = """
+        SELECT id, name
+        FROM customer
+        """;
+
+String labelledQuery = "Customer query:\n" + query;
 ```
 
 ### Evaluation is left to right
@@ -1377,11 +1472,422 @@ System.out.println(2 ^ 3);           // 1, bitwise XOR
 System.out.println(Math.pow(2, 3));  // 8.0
 ```
 
-Symbols such as `->` in a lambda expression and `::` in a method reference are language syntax, but they are normally taught separately from Java's expression-operator categories.
+The lambda arrow `->` is an operator token in Java 21. The method-reference separator `::`, the member-access separator `.`, and brackets or parentheses are related syntax, but they are not lexical operator tokens.
 
 [↑ Go to Table of Contents](#table-of-contents)
 
-## 29. Operators Best Practices
+## 29. Complete Java 21 Operator Token List
+
+The Java SE 21 lexical grammar defines exactly **38 operator tokens**:
+
+```text
+=   >   <   !   ~   ?   :   ->
+==  >=  <=  !=  &&  ||  ++  --
++   -   *   /   &   |   ^   %   <<   >>   >>>
++=  -=  *=  /=  &=  |=  ^=  %=  <<=  >>=  >>>=
+```
+
+### Token classification
+
+| Tokens | Use |
+| --- | --- |
+| `=` | Simple assignment |
+| `>`, `<`, `>=`, `<=` | Numeric comparison |
+| `!` | Boolean complement |
+| `~` | Integral bitwise complement |
+| `?`, `:` | Together form the conditional operator `?:` |
+| `->` | Lambda body or switch rule |
+| `==`, `!=` | Primitive value equality or reference identity |
+| `&&`, `||` | Short-circuit boolean operations |
+| `++`, `--` | Prefix or postfix increment and decrement |
+| `+`, `-`, `*`, `/`, `%` | Arithmetic; `+` also concatenates strings |
+| `&`, `|`, `^` | Integral bitwise or non-short-circuit boolean operations |
+| `<<`, `>>`, `>>>` | Integral shifts |
+| `+=`, `-=`, `*=`, `/=`, `%=` | Arithmetic or concatenation compound assignment |
+| `&=`, `|=`, `^=` | Bitwise or boolean compound assignment |
+| `<<=`, `>>=`, `>>>=` | Shift compound assignment |
+
+### Important lexical distinctions
+
+- `instanceof` is a keyword that acts as a relational operator.
+- `::` is a separator used in method-reference expressions.
+- `.`, `(`, `)`, `[`, and `]` are separators used in tightly binding primary expressions.
+- A cast such as `(long) value` is a cast expression, not one of the 38 operator tokens.
+- `new` is a keyword used by class and array creation expressions, not an operator token.
+- `&` is also reused in intersection types, and `|` is reused in multi-catch types; those appearances are type syntax rather than evaluated bitwise operations.
+- In a nested generic type such as `List<List<String>>`, Java treats adjacent `>` characters as separate closing tokens in the type context rather than as a shift operator.
+
+[↑ Go to Table of Contents](#table-of-contents)
+
+## 30. Lambda Expressions and Method References
+
+Lambda expressions and method references became permanent in Java 8. They are closely related to operators because the Java 21 lexical grammar classifies `->` as an operator token and because both forms participate in expression typing.
+
+### Lambda arrow `->`
+
+A lambda expression supplies an implementation of a functional interface.
+
+```java
+import java.util.function.IntBinaryOperator;
+import java.util.function.Predicate;
+
+IntBinaryOperator add = (left, right) -> left + right;
+Predicate<String> nonBlank = text -> text != null && !text.isBlank();
+
+System.out.println(add.applyAsInt(4, 6)); // 10
+System.out.println(nonBlank.test("Java")); // true
+```
+
+The lambda body can be one expression or a block.
+
+```java
+IntBinaryOperator maximum = (left, right) -> {
+    int result = left >= right ? left : right;
+    return result;
+};
+```
+
+The lambda arrow has the lowest expression precedence. Operators inside an expression body therefore belong to that body.
+
+```java
+java.util.function.Function<Integer, String> sign =
+        number -> number >= 0 ? "non-negative" : "negative";
+```
+
+### Target typing and poly expressions
+
+A lambda has no standalone object type. Its target must be a compatible functional interface supplied by assignment, invocation, or casting context.
+
+```java
+java.util.function.IntUnaryOperator square = value -> value * value;
+
+// var square = value -> value * value; // error: no target type
+```
+
+### Captured local variables
+
+A lambda may read a local variable only when that variable is `final` or effectively final.
+
+```java
+int factor = 3;
+java.util.function.IntUnaryOperator scale = value -> value * factor;
+
+// factor++; // would make factor non-effectively-final
+```
+
+### `var` in lambda parameters — Java 11+
+
+Java 11 permits `var` in an implicitly typed lambda parameter list. If one parameter uses `var`, they all must use it.
+
+```java
+java.util.function.BinaryOperator<Integer> larger =
+        (var left, var right) -> left >= right ? left : right;
+```
+
+This syntax is especially useful when parameter annotations are required.
+
+### Method-reference separator `::`
+
+A method reference identifies behavior without invoking it immediately. It receives its meaning from a target functional interface.
+
+| Form | Example | Meaning |
+| --- | --- | --- |
+| Static method | `Integer::parseInt` | Call a static method |
+| Bound instance method | `prefix::concat` | Call a method on one existing object |
+| Unbound instance method | `String::length` | Call a method on the supplied receiver |
+| Constructor | `ArrayList::new` | Create an object |
+| Array constructor | `String[]::new` | Create an array |
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+import java.util.function.IntFunction;
+import java.util.function.Supplier;
+
+Function<String, Integer> length = String::length;
+Supplier<List<String>> listFactory = ArrayList::new;
+IntFunction<String[]> arrayFactory = String[]::new;
+```
+
+`::` is formally a separator, not one of Java 21's 38 operator tokens. Method references are always poly expressions, so overload resolution and the target functional interface determine the referenced method.
+
+[↑ Go to Table of Contents](#table-of-contents)
+
+## 31. Switch Expressions Through Java 21
+
+Java 14 made switch expressions permanent. A `switch` expression selects and produces a value, so it can appear inside assignments, method arguments, returns, conditional expressions, and other larger expressions.
+
+### Arrow rules
+
+```java
+int day = 6;
+
+String kind = switch (day) {
+    case 1, 2, 3, 4, 5 -> "Weekday";
+    case 6, 7 -> "Weekend";
+    default -> throw new IllegalArgumentException("Invalid day: " + day);
+};
+```
+
+An arrow rule does not fall through to the next rule. Multiple constants can share one rule by using commas.
+
+### Block rule and `yield`
+
+Use a block when a rule requires multiple statements. `yield` supplies that block's result to the enclosing switch expression.
+
+```java
+int score = 82;
+
+String grade = switch (score / 10) {
+    case 10, 9 -> "A";
+    case 8 -> {
+        System.out.println("Good work");
+        yield "B";
+    }
+    case 7 -> "C";
+    case 6 -> "D";
+    default -> "F";
+};
+```
+
+`yield` is not an operator. It is a restricted identifier used by a statement within a switch-expression block.
+
+### Exhaustiveness
+
+Every switch expression must be exhaustive: all possible selector values must have a result or throw an exception. A `default` rule is often necessary. An enum listing all constants and an eligible sealed hierarchy can be exhaustive without an explicit `default`.
+
+### Target typing
+
+A switch expression can be a poly expression. Its surrounding target type can influence the types expected from its result expressions.
+
+```java
+boolean wholeNumber = false;
+Number value = switch (wholeNumber ? 1 : 2) {
+    case 1 -> 10;
+    default -> 2.5;
+};
+```
+
+### Selector types in Java 21
+
+Classic switch supports `char`, `byte`, `short`, and `int`, their wrapper types, `String`, and enum types. Java 21 pattern matching expands switch to selector expressions of any reference type. Java 21 does not support `boolean`, `long`, `float`, or `double` as switch selector types.
+
+Pattern labels, `case null`, guarded cases, and record patterns are covered in the next section.
+
+[↑ Go to Table of Contents](#table-of-contents)
+
+## 32. Pattern Matching and Record Patterns in Java 21
+
+Java 21 permanently added both **pattern matching for `switch`** and **record patterns**. These are standard Java 21 features and do not require `--enable-preview`.
+
+### Type patterns in switch
+
+```java
+static String describe(Object value) {
+    return switch (value) {
+        case null -> "null";
+        case Integer number -> "integer " + number;
+        case String text -> "text of length " + text.length();
+        default -> "other type";
+    };
+}
+```
+
+A pattern both tests the value and introduces a variable whose type is narrowed safely.
+
+### Guarded patterns with `when`
+
+A `when` guard adds a boolean condition after a pattern matches.
+
+```java
+static String classify(Object value) {
+    return switch (value) {
+        case String text when text.isBlank() -> "blank text";
+        case String text when text.length() > 20 -> "long text";
+        case String text -> "other text";
+        case null -> "null";
+        default -> "not text";
+    };
+}
+```
+
+Specific or guarded cases must appear before broader unguarded cases. Otherwise, the later case is dominated and the compiler rejects it.
+
+### Explicit null handling
+
+Type and record patterns do not match `null`. Java 21 permits `case null` when null is an expected selector value.
+
+```java
+String result = switch (value) {
+    case null -> "missing";
+    case String text -> text;
+    default -> value.toString();
+};
+```
+
+Without an applicable `case null`, switching on a null selector normally throws `NullPointerException`; a plain `default` does not make type patterns match null.
+
+### Record patterns
+
+A record pattern tests the record type and extracts its components.
+
+```java
+record Point(int x, int y) {}
+
+static String location(Object value) {
+    if (value instanceof Point(int x, int y)) {
+        return "(" + x + ", " + y + ")";
+    }
+    return "not a point";
+}
+```
+
+The record component patterns may use `var` when the component types should be inferred.
+
+```java
+if (value instanceof Point(var x, var y)) {
+    System.out.println(x + y);
+}
+```
+
+### Nested record patterns
+
+Record patterns compose recursively.
+
+```java
+record Line(Point start, Point end) {}
+
+static int horizontalLength(Object value) {
+    return switch (value) {
+        case Line(Point(var x1, var y1), Point(var x2, var y2))
+                when y1 == y2 -> Math.abs(x2 - x1);
+        case Line ignored -> 0;
+        default -> -1;
+    };
+}
+```
+
+### Exhaustive switch over a sealed hierarchy
+
+```java
+sealed interface Shape permits Circle, Rectangle {}
+record Circle(double radius) implements Shape {}
+record Rectangle(double width, double height) implements Shape {}
+
+static double area(Shape shape) {
+    return switch (shape) {
+        case Circle(double radius) -> Math.PI * radius * radius;
+        case Rectangle(double width, double height) -> width * height;
+    };
+}
+```
+
+Because every permitted implementation of `Shape` is covered, the switch expression is exhaustive without a source-level `default`. Passing `null` still throws `NullPointerException` unless a `case null` rule is included.
+
+### Generic record patterns
+
+Java 21 can infer generic record-pattern type arguments when the selector's static type provides enough information.
+
+```java
+record Box<T>(T value) {}
+
+static void printBox(Box<String> box) {
+    if (box instanceof Box(var text)) {
+        System.out.println(text.toUpperCase());
+    }
+}
+```
+
+Record patterns do not bypass type erasure. The required cast to a parameterized record type must still be reifiable or otherwise safely checkable.
+
+[↑ Go to Table of Contents](#table-of-contents)
+
+## 33. Java 21 Preview Features Related to Expressions
+
+Java 21 also included preview language features. Preview features are intentionally separate from permanent Java SE 21 features: they require special compiler and runtime flags and may change or disappear in later releases.
+
+### Enabling Java 21 preview features
+
+```bash
+javac --enable-preview --release 21 Example.java
+java --enable-preview Example
+```
+
+The compiler and runtime must both be JDK 21 when running class files that use Java 21 preview features.
+
+### String templates — Java 21 preview
+
+String templates combined literal text, embedded expressions, and a template processor. The Java 21 preview syntax used `\{...}` for an embedded expression.
+
+```java
+int quantity = 3;
+double price = 25.0;
+
+String message = STR."Total: \{quantity * price}";
+```
+
+This is **not standard Java 21 syntax** without preview mode. Use ordinary concatenation, `String.format()`, or another formatting API when preview features are not enabled.
+
+### Unnamed patterns and variables — Java 21 preview
+
+The underscore `_` could mark a pattern component or variable whose value was intentionally unused.
+
+```java
+record Point(int x, int y) {}
+
+if (value instanceof Point(int x, _)) {
+    System.out.println("x = " + x);
+}
+```
+
+This syntax also requires Java 21 preview mode. In permanent Java 21 code, give the component a legal name even when it is unused.
+
+### Unnamed classes and instance main methods — Java 21 preview
+
+Java 21 previewed simplified source files for small programs. This feature does not add an operator, but it can make beginner operator examples shorter. It still requires preview mode.
+
+```java
+void main() {
+    int result = 10 + 20;
+    System.out.println(result);
+}
+```
+
+For ordinary Java 21 source, continue to use a named class and `public static void main(String[] args)`.
+
+[↑ Go to Table of Contents](#table-of-contents)
+
+## 34. Java Version Timeline for Operators and Expressions
+
+The core arithmetic, comparison, logical, bitwise, shift, conditional, assignment, and `instanceof` operators predate modern Java releases. Later releases mainly added new expression forms, pattern capabilities, and related syntax.
+
+| Java release | Operator or expression-related change relevant to this chapter |
+| ---: | --- |
+| Java 5 | Autoboxing and unboxing allowed wrapper values to participate more naturally in operator expressions |
+| Java 7 | Binary integer literals and numeric-literal underscores improved bit-oriented code; multi-catch reused `|` as type syntax |
+| Java 8 | Lambda expressions added `->`; method references added `::`; unsigned integer utility methods were added |
+| Java 10 | `var` added local-variable type inference for initialized local declarations |
+| Java 11 | `var` became legal in implicitly typed lambda parameter lists |
+| Java 14 | Switch expressions and arrow switch rules became permanent; `yield` supplies a value from a block rule |
+| Java 15 | Text blocks became permanent `String` literals and work with ordinary string concatenation |
+| Java 16 | Pattern matching for `instanceof` became permanent |
+| Java 17 | Floating-point evaluation became always strict; sealed classes became permanent and support exhaustive pattern reasoning |
+| Java 21 | Record patterns and pattern matching for switch became permanent |
+| Java 21 preview | String templates, unnamed patterns and variables, and unnamed classes with instance main methods were preview features |
+
+### Java 21 baseline summary
+
+- Every ordinary operator example in this chapter is valid for Java 21.
+- Sections using switch expressions require Java 14 or later.
+- Type patterns for `instanceof` require Java 16 or later.
+- Record patterns, `when` guards, and final pattern-switch syntax require Java 21.
+- Examples in Section 33 compile only with Java 21 preview mode.
+- Java 21 introduced no new primitive arithmetic, equality, bitwise, or shift operator symbol.
+
+[↑ Go to Table of Contents](#table-of-contents)
+
+## 35. Operators Best Practices
 
 - Use parentheses to communicate intent in mixed expressions.
 - Use `&&` and `||` for normal boolean conditions so unnecessary work is skipped.
@@ -1397,11 +1903,17 @@ Symbols such as `->` in a lambda expression and `::` in a method reference are l
 - Add parentheses around bit-mask tests, such as `(flags & READ) != 0`.
 - Remember that compound assignment can perform an implicit narrowing conversion.
 - Do not replace clear multiplication or division blindly with shifts.
+- Use arrow switch rules to avoid accidental fall-through when a switch returns a value.
+- Keep switch expressions exhaustive, and handle `null` explicitly when it is a valid input.
+- Place guarded or specific pattern cases before broad, unguarded cases.
+- Use record patterns when direct deconstruction improves clarity; keep named accessors when the pattern becomes overly nested.
+- Give every lambda an obvious functional-interface target type.
+- Treat Java 21 preview examples as experimental and compile them only with matching preview flags.
 - Prefer readable expressions over clever expressions.
 
 [↑ Go to Table of Contents](#table-of-contents)
 
-## 30. Common Operator Errors
+## 36. Common Operator Errors
 
 ### Error 1: Expecting decimal integer division
 
@@ -1555,9 +2067,105 @@ int result = i++ + ++i;
 
 Java defines the evaluation, but a reader must mentally track several state changes. Split the work into named steps.
 
+### Error 14: Using a pattern variable outside its flow scope
+
+```java
+if (value instanceof String text) {
+    System.out.println(text.length());
+}
+
+// System.out.println(text); // compile-time error: text is out of scope
+```
+
+Keep the use inside a region where the compiler knows the match succeeded, or restructure with an early return.
+
+### Error 15: Placing a broad switch pattern first
+
+```java
+// Compile-time error: String case is dominated by Object case
+String result = switch (value) {
+    case Object object -> "object";
+    case String text -> "text";
+};
+```
+
+Fix:
+
+```java
+String result = switch (value) {
+    case String text -> "text";
+    case Object object -> "object";
+};
+```
+
+### Error 16: Assuming `default` always handles null in a pattern switch
+
+```java
+String result = switch (value) {
+    case String text -> text;
+    default -> "other";
+};
+```
+
+If `value` is `null`, this normally throws `NullPointerException`. Add `case null` when null is part of the input domain.
+
+### Error 17: Forgetting that a switch expression must be exhaustive
+
+```java
+// Compile-time error when not every possible int value is covered
+// String label = switch (number) {
+//     case 1 -> "one";
+// };
+```
+
+Add a suitable `default`, cover every enum constant, or cover every permitted type of an eligible sealed hierarchy.
+
+### Error 18: Using `break` instead of `yield` for a switch-expression value
+
+```java
+String result = switch (number) {
+    case 1 -> {
+        System.out.println("one");
+        yield "ONE";
+    }
+    default -> "OTHER";
+};
+```
+
+An arrow expression returns its expression directly. A multi-statement block uses `yield`, not `break value`.
+
+### Error 19: Giving a lambda no target type
+
+```java
+// var square = value -> value * value; // compile-time error
+
+java.util.function.IntUnaryOperator square = value -> value * value;
+```
+
+Lambdas and method references need a compatible functional-interface target.
+
+### Error 20: Mixing `var` and ordinary lambda parameter syntax
+
+```java
+// Invalid: all parameters must use the same declaration style
+// java.util.function.BinaryOperator<Integer> add =
+//         (var left, right) -> left + right;
+```
+
+Use `(var left, var right)`, `(left, right)`, or explicit types for both parameters.
+
+### Error 21: Compiling Java 21 preview syntax without preview mode
+
+```java
+// Java 21 preview syntax; ordinary javac --release 21 is insufficient
+// String message = STR."Total: \{total}";
+```
+
+Compile with `javac --enable-preview --release 21` and run with `java --enable-preview`, or replace the preview syntax with permanent Java 21 syntax.
+
 [↑ Go to Table of Contents](#table-of-contents)
 
-## 31. Quick Revision Tables
+## 37. Quick Revision Tables
 
 ### Arithmetic and assignment
 
@@ -1603,9 +2211,22 @@ Java defines the evaluation, but a reader must mentally track several state chan
 | `null instanceof Type` | Always `false` |
 | Integer overflow | Wraps unless an exact method is used |
 
+### Version-specific expression features available in Java 21
+
+| Feature | Permanent since | Key syntax |
+| --- | ---: | --- |
+| Lambda expression | Java 8 | `(x, y) -> x + y` |
+| Method reference | Java 8 | `String::length` |
+| `var` lambda parameters | Java 11 | `(var x, var y) -> x + y` |
+| Switch expression | Java 14 | `switch (x) { case 1 -> "one"; default -> "other"; }` |
+| Pattern `instanceof` | Java 16 | `value instanceof String text` |
+| Record pattern | Java 21 | `value instanceof Point(int x, int y)` |
+| Pattern switch | Java 21 | `case String text when !text.isBlank() -> ...` |
+| Java 21 preview syntax | Preview only | Requires `--enable-preview` |
+
 [↑ Go to Table of Contents](#table-of-contents)
 
-## 32. Frequently Asked Interview Questions
+## 38. Frequently Asked Interview Questions
 
 > ### Fundamentals
 
@@ -1827,6 +2448,123 @@ Use a tolerance appropriate to the domain, or use a decimal or exact representat
 - `^` means XOR, not power.
 - Integer overflow wraps unless checked explicitly.
 - Parentheses make mixed expressions easier to verify.
+
+[↑ Go to Table of Contents](#table-of-contents)
+
+> ### Java 21 Coverage Questions
+
+### 51. How many lexical operator tokens does Java 21 define?
+
+Java SE 21 defines 38 operator tokens. The list includes the lambda and switch arrow `->`.
+
+### 52. Is `instanceof` one of the 38 operator tokens?
+
+No. `instanceof` is lexically a keyword, but it behaves as a relational operator in expressions.
+
+### 53. Is `::` an operator in Java 21?
+
+Formally, no. The lexical grammar classifies `::` as a separator used by method-reference expressions.
+
+### 54. What is Java's lowest-precedence expression operator?
+
+The arrow of a lambda expression, `->`, has lower precedence than assignment operators.
+
+### 55. When did switch expressions become permanent?
+
+They became a permanent Java language feature in Java 14.
+
+### 56. What is the difference between `->` and `yield` in a switch expression?
+
+An arrow introduces a switch rule. A rule containing one expression produces that value directly; a multi-statement block uses `yield` to provide its value.
+
+### 57. Do arrow switch rules fall through?
+
+No. An arrow rule selects only its own expression, block, or `throw` statement.
+
+### 58. Why must a switch expression be exhaustive?
+
+It must produce a value or complete abruptly for every possible selector value. Exhaustiveness prevents a path with no result.
+
+### 59. Which types cannot be switch selectors in Java 21?
+
+`boolean`, `long`, `float`, and `double` cannot be switch selector types. Pattern matching otherwise permits reference-type selectors, while classic switch supports its traditional integral, wrapper, string, and enum types.
+
+### 60. When did pattern matching for `instanceof` become permanent?
+
+It became permanent in Java 16.
+
+### 61. What is flow scoping for a pattern variable?
+
+The variable is in scope only where the compiler can prove the pattern matched. This allows use after a successful `&&` condition or after an unmatched path returns.
+
+### 62. Are record patterns permanent in Java 21?
+
+Yes. Record patterns became a permanent feature in Java 21 and do not require preview flags.
+
+### 63. Is pattern matching for switch permanent in Java 21?
+
+Yes. Type and record patterns in switch expressions and statements are permanent in Java 21.
+
+### 64. What does a `when` guard do?
+
+It applies an additional boolean test after a case pattern matches, such as `case String text when text.isBlank() -> ...`.
+
+### 65. What is pattern dominance?
+
+A case is dominated when an earlier case already matches every value it could match. Java rejects dominated switch labels at compile time.
+
+### 66. How does a Java 21 pattern switch handle `null`?
+
+Use `case null` to handle it explicitly. Type and record patterns do not normally match null, and switching on null without an applicable null label throws `NullPointerException`.
+
+### 67. How can a sealed hierarchy make a switch exhaustive?
+
+If the switch covers every permitted direct subtype relevant to the selector type, the compiler can accept it without a source-level `default`.
+
+### 68. What changed for floating-point operators in Java 17?
+
+Floating-point evaluation became always strict. In Java 21, `strictfp` no longer changes evaluation and is obsolete.
+
+### 69. Which Java 21 expression-related features were preview features?
+
+String templates and unnamed patterns or variables were relevant preview features. Unnamed classes and instance main methods were also previewed for simpler source files.
+
+### 70. Are Java 21 preview features enabled by default?
+
+No. Compile with `javac --enable-preview --release 21` and run with `java --enable-preview` on JDK 21.
+
+### 71. Are Java 21 string templates ordinary permanent Java 21 syntax?
+
+No. They were preview syntax in Java 21. Permanent Java 21 code should use concatenation or formatting APIs unless preview mode is intentionally enabled.
+
+### 72. Is `_` an ordinary variable name in Java 21?
+
+No. A single underscore has been reserved since Java 9. Its use for unnamed patterns and variables was preview-only in Java 21.
+
+### 73. Did Java 21 add a new arithmetic, equality, bitwise, or shift symbol?
+
+No. Java 21's permanent expression changes focused on record patterns and pattern matching for switch, not new primitive arithmetic operator symbols.
+
+### 74. Which examples in this chapter require Java 21 specifically?
+
+Record patterns, final pattern-switch syntax, `when` guards, and the Java 21 preview examples require JDK 21. Earlier core-operator examples work on older releases as indicated in the version timeline.
+
+[↑ Go to Table of Contents](#table-of-contents)
+
+## 39. Official Java 21 References
+
+- [Java Language Specification, Java SE 21 — Chapter 3: Lexical Structure](https://docs.oracle.com/javase/specs/jls/se21/html/jls-3.html)
+- [Java Language Specification, Java SE 21 — Chapter 14: Blocks, Statements, and Patterns](https://docs.oracle.com/javase/specs/jls/se21/html/jls-14.html)
+- [Java Language Specification, Java SE 21 — Chapter 15: Expressions](https://docs.oracle.com/javase/specs/jls/se21/html/jls-15.html)
+- [Oracle Java SE 21 Language Changes](https://docs.oracle.com/en/java/javase/21/language/java-language-changes-release.html)
+- [Oracle Java 21 Record Patterns Guide](https://docs.oracle.com/en/java/javase/21/language/record-patterns.html)
+- [Oracle Java 21 Pattern Matching for switch Guide](https://docs.oracle.com/en/java/javase/21/language/pattern-matching-switch.html)
+- [JEP 361: Switch Expressions](https://openjdk.org/jeps/361)
+- [JEP 394: Pattern Matching for `instanceof`](https://openjdk.org/jeps/394)
+- [JEP 440: Record Patterns](https://openjdk.org/jeps/440)
+- [JEP 441: Pattern Matching for `switch`](https://openjdk.org/jeps/441)
+- [Java 21 String Templates Preview Specification](https://docs.oracle.com/javase/specs/jls/se21/preview/specs/string-templates-jls.html)
+- [Java 21 Unnamed Patterns and Variables Preview Specification](https://docs.oracle.com/javase/specs/jls/se21/preview/specs/unnamed-jls.html)
 
 [↑ Go to Table of Contents](#table-of-contents)
 
