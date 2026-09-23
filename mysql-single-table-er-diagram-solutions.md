@@ -1176,5 +1176,24 @@ SHOW CREATE TABLE support_tickets;
 6. `CHECK` constraints enforce row-level numeric and date rules.
 7. Nullable attributes explicitly use `NULL`.
 8. Creation and modification times use explicit timestamp clauses.
-9. No table contains a foreign key or relationship.
+
+<!-- Mermaid rendering support for GitHub Pages/Jekyll. -->
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+
+  document.querySelectorAll("pre > code.language-mermaid").forEach((code) => {
+    const diagram = document.createElement("pre");
+    diagram.className = "mermaid";
+    diagram.textContent = code.textContent;
+    code.parentElement.replaceWith(diagram);
+  });
+
+  mermaid.initialize({
+    startOnLoad: false,
+    securityLevel: "strict"
+  });
+
+  await mermaid.run({ querySelector: ".mermaid" });
+</script>
+10. No table contains a foreign key or relationship.
 
