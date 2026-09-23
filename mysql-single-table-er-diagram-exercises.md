@@ -844,7 +844,7 @@ For each of the 10 tables, confirm the following before considering the exercise
 8. `hotel_rooms`
 9. `movies`
 
-10. <!-- Mermaid rendering support for GitHub Pages/Jekyll. -->
+<!-- Mermaid rendering support for GitHub Pages/Jekyll. -->
 <script type="module">
   import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
 
