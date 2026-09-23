@@ -1232,3 +1232,21 @@ After dropping it, rerun the Initial Schema section.
 - Use `DECIMAL`, not floating-point types, for salary and other exact financial values.
 - Use ISO date literals in `YYYY-MM-DD` format.
 
+<!-- Mermaid rendering support for GitHub Pages/Jekyll. -->
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+
+  document.querySelectorAll("pre > code.language-mermaid").forEach((code) => {
+    const diagram = document.createElement("pre");
+    diagram.className = "mermaid";
+    diagram.textContent = code.textContent;
+    code.parentElement.replaceWith(diagram);
+  });
+
+  mermaid.initialize({
+    startOnLoad: false,
+    securityLevel: "strict"
+  });
+
+  await mermaid.run({ querySelector: ".mermaid" });
+</script>
