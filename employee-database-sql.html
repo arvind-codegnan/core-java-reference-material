@@ -1,0 +1,353 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}</style><style>:root{color-scheme:light dark;--md-bg:#fff;--md-text:rgba(0,0,0,.8);--md-muted:rgba(0,0,0,.6);--md-fill:rgba(0,0,0,.04);--md-fill-strong:rgba(0,0,0,.06);--md-rule:rgba(0,0,0,.1);--md-rule-strong:rgba(0,0,0,.16);--md-link:hsl(210 100% 45%)}@media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])){--md-bg:#0d0d0d;--md-text:rgba(255,255,255,.85);--md-muted:rgba(255,255,255,.6);--md-fill:rgba(255,255,255,.06);--md-fill-strong:rgba(255,255,255,.09);--md-rule:rgba(255,255,255,.14);--md-rule-strong:rgba(255,255,255,.22);--md-link:hsl(210 100% 72%)}}:root[data-theme="dark"]{color-scheme:dark;--md-bg:#0d0d0d;--md-text:rgba(255,255,255,.85);--md-muted:rgba(255,255,255,.6);--md-fill:rgba(255,255,255,.06);--md-fill-strong:rgba(255,255,255,.09);--md-rule:rgba(255,255,255,.14);--md-rule-strong:rgba(255,255,255,.22);--md-link:hsl(210 100% 72%)}:root[data-theme="light"]{color-scheme:light}@media print{:root,:root[data-theme="dark"]{color-scheme:light;--md-bg:#fff;--md-text:rgba(0,0,0,.8);--md-muted:rgba(0,0,0,.6);--md-fill:rgba(0,0,0,.04);--md-fill-strong:rgba(0,0,0,.06);--md-rule:rgba(0,0,0,.1);--md-rule-strong:rgba(0,0,0,.16);--md-link:hsl(210 100% 45%)}}body{background:var(--md-bg);color:var(--md-text);max-width:720px;margin:0 auto;padding:32px;display:flex;flex-direction:column;gap:10px;font:14px/1.55 -apple-system,BlinkMacSystemFont,'SF Pro','Segoe UI',sans-serif;overflow-wrap:break-word}body>:first-child{margin-top:0}h1,h2,h3,h4,h5,h6{margin:6px 0 0;line-height:1.25;font-weight:600;text-wrap:balance}h1{font-size:1.35em}h2{font-size:1.15em;color:var(--md-muted)}h3,h4,h5,h6{font-size:1em}p,ul,ol,blockquote,table,pre,hr{margin:0}strong{font-weight:600}a{color:var(--md-link);text-decoration:none}a:hover{text-decoration:underline}ul,ol{display:flex;flex-direction:column;gap:6px;padding-left:22px}ul{list-style:disc}ol{list-style:decimal}:is(li,td,th)>*+:is(p,ul,ol,blockquote){margin-top:6px}blockquote{display:flex;flex-direction:column;gap:10px;border-left:2px solid var(--md-rule);padding-left:10px;color:var(--md-muted)}:not(pre)>code{background:var(--md-fill);padding:1px 3px;border-radius:4px;font:.92em 'SF Mono',ui-monospace,Menlo,Consolas,monospace}a>code{background:none;color:inherit}pre{background:var(--md-fill);padding:10px 12px;border-radius:6px;overflow-x:auto;font:12px/1.5 'SF Mono',ui-monospace,Menlo,Consolas,monospace;margin-block:4px}pre code{background:none;padding:0;font:inherit}table{width:100%;border-collapse:separate;border-spacing:2px;font:inherit}th,td{padding:6px 8px;border-radius:3px;text-align:left;vertical-align:top}th{background:var(--md-fill-strong);font-weight:600}td{background:var(--md-fill)}:is(th,td) :not(pre)>code{background:transparent}hr{border:0;border-top:1px solid var(--md-rule-strong);margin-block:10px}img{max-width:100%;height:auto;border-radius:4px}</style>
+</head><body>
+<h1>Employee Database — SQL Practice Guide</h1>
+<p>Practice <code>CREATE</code>, <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>, and <code>SELECT</code> in MySQL using an Employee/Department schema.</p>
+<hr>
+<h2>1. Logical ER Diagram</h2>
+<p>The logical model shows entities, attributes, and relationships — no data types or engine-specific detail yet.</p>
+<pre class="mermaid">erDiagram
+    DEPARTMENT ||--o{ EMPLOYEE : &#34;employs&#34;
+    EMPLOYEE }o--o| EMPLOYEE : &#34;reports to&#34;
+
+    DEPARTMENT {
+        string DepartmentName
+        string Location
+    }
+    EMPLOYEE {
+        string FirstName
+        string LastName
+        string Email
+        string Phone
+        date DateOfBirth
+        date HireDate
+        string JobTitle
+        decimal Salary
+        string Gender
+        string Status
+    }
+</pre>
+<p><strong>Notes</strong></p>
+<ul>
+<li>One <code>Department</code> employs many <code>Employees</code> (1‑to‑many).</li>
+<li><code>Employee</code> has a self‑referencing &quot;reports to&quot; relationship (a manager is also an employee) — many employees report to one manager.</li>
+</ul>
+<hr>
+<h2>2. Physical ER Diagram</h2>
+<p>The physical model adds primary keys, foreign keys, exact data types, and constraints — ready to translate into MySQL DDL.</p>
+<pre class="mermaid">erDiagram
+    DEPARTMENTS ||--o{ EMPLOYEES : &#34;DepartmentID&#34;
+    EMPLOYEES }o--o| EMPLOYEES : &#34;ManagerID&#34;
+
+    DEPARTMENTS {
+        int DepartmentID PK &#34;AUTO_INCREMENT&#34;
+        varchar_100 DepartmentName &#34;NOT NULL, UNIQUE&#34;
+        varchar_100 Location
+    }
+    EMPLOYEES {
+        int EmployeeID PK &#34;AUTO_INCREMENT&#34;
+        varchar_50 FirstName &#34;NOT NULL&#34;
+        varchar_50 LastName &#34;NOT NULL&#34;
+        varchar_100 Email &#34;UNIQUE, NOT NULL&#34;
+        varchar_15 Phone
+        date DateOfBirth
+        date HireDate &#34;NOT NULL&#34;
+        varchar_50 JobTitle
+        decimal_10_2 Salary &#34;CHECK Salary greater than 0&#34;
+        char_1 Gender &#34;CHECK IN M,F,O&#34;
+        varchar_10 Status &#34;DEFAULT Active&#34;
+        int DepartmentID FK
+        int ManagerID FK &#34;self-reference to EmployeeID&#34;
+    }
+</pre>
+<p><strong>Physical schema (MySQL DDL)</strong></p>
+<pre><code class="language-sql">CREATE TABLE departments (
+    department_id   INT AUTO_INCREMENT PRIMARY KEY,
+    department_name VARCHAR(100) NOT NULL UNIQUE,
+    location        VARCHAR(100)
+) ENGINE=InnoDB;
+
+CREATE TABLE employees (
+    employee_id   INT AUTO_INCREMENT PRIMARY KEY,
+    first_name    VARCHAR(50)  NOT NULL,
+    last_name     VARCHAR(50)  NOT NULL,
+    email         VARCHAR(100) NOT NULL UNIQUE,
+    phone         VARCHAR(15),
+    date_of_birth DATE,
+    hire_date     DATE NOT NULL,
+    job_title     VARCHAR(50),
+    salary        DECIMAL(10,2) CHECK (salary &gt; 0),
+    gender        CHAR(1) CHECK (gender IN (&#39;M&#39;,&#39;F&#39;,&#39;O&#39;)),
+    status        VARCHAR(10) DEFAULT &#39;Active&#39;,
+    department_id INT,
+    manager_id    INT,
+    CONSTRAINT fk_emp_department FOREIGN KEY (department_id)
+        REFERENCES departments(department_id) ON DELETE SET NULL,
+    CONSTRAINT fk_emp_manager FOREIGN KEY (manager_id)
+        REFERENCES employees(employee_id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+</code></pre>
+<hr>
+<h2>3. CREATE TABLE Exercises</h2>
+<p><strong>Exercise 3.1</strong> — Create the <code>departments</code> table with <code>department_id</code> (PK, auto-increment), <code>department_name</code> (unique, not null), and <code>location</code>.</p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-sql">CREATE TABLE departments (
+    department_id   INT AUTO_INCREMENT PRIMARY KEY,
+    department_name VARCHAR(100) NOT NULL UNIQUE,
+    location        VARCHAR(100)
+);
+</code></pre>
+</details>
+<p><strong>Exercise 3.2</strong> — Create the <code>employees</code> table with the columns shown in the physical diagram above, including foreign keys to <code>departments</code> and a self-referencing <code>manager_id</code>.</p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-sql">CREATE TABLE employees (
+    employee_id   INT AUTO_INCREMENT PRIMARY KEY,
+    first_name    VARCHAR(50)  NOT NULL,
+    last_name     VARCHAR(50)  NOT NULL,
+    email         VARCHAR(100) NOT NULL UNIQUE,
+    phone         VARCHAR(15),
+    date_of_birth DATE,
+    hire_date     DATE NOT NULL,
+    job_title     VARCHAR(50),
+    salary        DECIMAL(10,2) CHECK (salary &gt; 0),
+    gender        CHAR(1) CHECK (gender IN (&#39;M&#39;,&#39;F&#39;,&#39;O&#39;)),
+    status        VARCHAR(10) DEFAULT &#39;Active&#39;,
+    department_id INT,
+    manager_id    INT,
+    FOREIGN KEY (department_id) REFERENCES departments(department_id),
+    FOREIGN KEY (manager_id) REFERENCES employees(employee_id)
+);
+</code></pre>
+</details>
+<p><strong>Exercise 3.3</strong> — Create a table <code>employee_audit</code> to log salary changes: <code>audit_id</code> (PK), <code>employee_id</code> (FK), <code>old_salary</code>, <code>new_salary</code>, <code>changed_on</code> (defaults to current timestamp).</p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-sql">CREATE TABLE employee_audit (
+    audit_id    INT AUTO_INCREMENT PRIMARY KEY,
+    employee_id INT,
+    old_salary  DECIMAL(10,2),
+    new_salary  DECIMAL(10,2),
+    changed_on  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (employee_id) REFERENCES employees(employee_id)
+);
+</code></pre>
+</details>
+<hr>
+<h2>4. INSERT Exercises</h2>
+<p><strong>Exercise 4.1</strong> — Insert two departments: &quot;Engineering&quot; (Hyderabad) and &quot;Sales&quot; (Mumbai).</p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-sql">INSERT INTO departments (department_name, location)
+VALUES (&#39;Engineering&#39;, &#39;Hyderabad&#39;),
+       (&#39;Sales&#39;, &#39;Mumbai&#39;);
+</code></pre>
+</details>
+<p><strong>Exercise 4.2</strong> — Insert an employee &quot;Anita Rao&quot;, email <code>anita.rao@example.com</code>, hired <code>2023-06-01</code>, job title &quot;Software Engineer&quot;, salary 65000, gender F, in the Engineering department (assume department_id = 1), with no manager yet.</p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-sql">INSERT INTO employees
+    (first_name, last_name, email, hire_date, job_title, salary, gender, department_id, manager_id)
+VALUES
+    (&#39;Anita&#39;, &#39;Rao&#39;, &#39;anita.rao@example.com&#39;, &#39;2023-06-01&#39;, &#39;Software Engineer&#39;, 65000, &#39;F&#39;, 1, NULL);
+</code></pre>
+</details>
+<p><strong>Exercise 4.3</strong> — Insert a manager &quot;Vikram Shah&quot; into Engineering, then insert a new employee &quot;Rohit Verma&quot; who reports to Vikram (use a subquery to look up Vikram's <code>employee_id</code> instead of hardcoding it).</p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-sql">INSERT INTO employees
+    (first_name, last_name, email, hire_date, job_title, salary, gender, department_id, manager_id)
+VALUES
+    (&#39;Vikram&#39;, &#39;Shah&#39;, &#39;vikram.shah@example.com&#39;, &#39;2020-01-15&#39;, &#39;Engineering Manager&#39;, 120000, &#39;M&#39;, 1, NULL);
+
+INSERT INTO employees
+    (first_name, last_name, email, hire_date, job_title, salary, gender, department_id, manager_id)
+SELECT &#39;Rohit&#39;, &#39;Verma&#39;, &#39;rohit.verma@example.com&#39;, &#39;2024-02-10&#39;, &#39;Software Engineer&#39;, 60000, &#39;M&#39;, 1, employee_id
+FROM employees
+WHERE email = &#39;vikram.shah@example.com&#39;;
+</code></pre>
+</details>
+<hr>
+<h2>5. SELECT Exercises</h2>
+<p><strong>Exercise 5.1</strong> — List all employees' full name, job title, and salary.</p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-sql">SELECT CONCAT(first_name, &#39; &#39;, last_name) AS full_name, job_title, salary
+FROM employees;
+</code></pre>
+</details>
+<p><strong>Exercise 5.2</strong> — List employees earning more than 60000, ordered by salary descending.</p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-sql">SELECT first_name, last_name, salary
+FROM employees
+WHERE salary &gt; 60000
+ORDER BY salary DESC;
+</code></pre>
+</details>
+<p><strong>Exercise 5.3</strong> — Show each department along with the number of employees and average salary in that department.</p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-sql">SELECT d.department_name,
+       COUNT(e.employee_id) AS employee_count,
+       AVG(e.salary) AS avg_salary
+FROM departments d
+LEFT JOIN employees e ON e.department_id = d.department_id
+GROUP BY d.department_name;
+</code></pre>
+</details>
+<p><strong>Exercise 5.4</strong> — List every employee together with their manager's name (self-join).</p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-sql">SELECT e.first_name AS employee_first_name,
+       e.last_name  AS employee_last_name,
+       m.first_name AS manager_first_name,
+       m.last_name  AS manager_last_name
+FROM employees e
+LEFT JOIN employees m ON e.manager_id = m.employee_id;
+</code></pre>
+</details>
+<hr>
+<h2>6. UPDATE Exercises</h2>
+<p><strong>Exercise 6.1</strong> — Give every employee in the Engineering department a 10% raise.</p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-sql">UPDATE employees e
+JOIN departments d ON e.department_id = d.department_id
+SET e.salary = e.salary * 1.10
+WHERE d.department_name = &#39;Engineering&#39;;
+</code></pre>
+</details>
+<p><strong>Exercise 6.2</strong> — Mark employee &quot;Rohit Verma&quot; as <code>Inactive</code> in the <code>status</code> column.</p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-sql">UPDATE employees
+SET status = &#39;Inactive&#39;
+WHERE email = &#39;rohit.verma@example.com&#39;;
+</code></pre>
+</details>
+<p><strong>Exercise 6.3</strong> — Reassign all employees who report to Vikram Shah to a new manager, &quot;Anita Rao&quot;, using subqueries for both lookups.</p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-sql">UPDATE employees
+SET manager_id = (SELECT employee_id FROM employees WHERE email = &#39;anita.rao@example.com&#39;)
+WHERE manager_id = (SELECT employee_id FROM employees WHERE email = &#39;vikram.shah@example.com&#39;);
+</code></pre>
+</details>
+<hr>
+<h2>7. DELETE Exercises</h2>
+<p><strong>Exercise 7.1</strong> — Delete the audit log entries older than 2 years.</p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-sql">DELETE FROM employee_audit
+WHERE changed_on &lt; NOW() - INTERVAL 2 YEAR;
+</code></pre>
+</details>
+<p><strong>Exercise 7.2</strong> — Delete a specific employee by email, e.g. a test record <code>test.user@example.com</code>.</p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-sql">DELETE FROM employees
+WHERE email = &#39;test.user@example.com&#39;;
+</code></pre>
+</details>
+<p><strong>Exercise 7.3</strong> — Delete all employees whose status is <code>Inactive</code> and who have no direct reports (i.e., no one lists them as manager). Explain why order matters with foreign keys.</p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-sql">DELETE FROM employees
+WHERE status = &#39;Inactive&#39;
+  AND employee_id NOT IN (
+      SELECT DISTINCT manager_id
+      FROM employees
+      WHERE manager_id IS NOT NULL
+  );
+</code></pre>
+<p><em>Note:</em> Because <code>manager_id</code> is a self-referencing foreign key, MySQL will block deletion of an employee who is still referenced as someone else's manager (unless the FK has <code>ON DELETE SET NULL</code>, as defined in the schema above). The <code>NOT IN</code> subquery avoids that conflict by only deleting employees nobody currently reports to.</p>
+</details>
+<hr>
+<h2>Suggested practice order</h2>
+<ol>
+<li>Run the <code>CREATE TABLE</code> statements (Section 3).</li>
+<li>Populate with <code>INSERT</code> statements (Section 4).</li>
+<li>Practice <code>SELECT</code> queries to verify your data (Section 5).</li>
+<li>Practice <code>UPDATE</code> statements, then re-run relevant <code>SELECT</code>s to confirm (Section 6).</li>
+<li>Practice <code>DELETE</code> statements last, since they affect the data used above (Section 7).</li>
+</ol>
+
+
+<!--claude-mermaid-runtime-begin:3477-->
+<style>.mermaid-diagram{margin-block:4px}.mermaid-diagram svg{display:block;margin:0 auto;max-width:100%;height:auto}</style>
+<script src="/_runtime/mermaid-11.16.1.min.js"></script>
+<script>(function(){
+var CFG={"palettes":{"light":{"surface":"#f4efe4","text":"#42392e","line":"#8a7f6d","border":"#7a6c52","bg":"#fffdf8"},"dark":{"surface":"#262b34","text":"#f2f3f5","line":"#a8adb8","border":"#9aa4b8","bg":"#1f232b"}}};
+if(typeof mermaid==='undefined')return;
+var pres=Array.prototype.slice.call(document.querySelectorAll('pre.mermaid')).filter(function(p){if(p.hasAttribute('data-claude-mermaid-claimed'))return false;p.setAttribute('data-claude-mermaid-claimed','1');return true;});
+if(!pres.length)return;
+var mq=window.matchMedia?window.matchMedia('(prefers-color-scheme: dark)'):null;
+var root=document.documentElement;
+var items=pres.map(function(pre){
+var mount=document.createElement('div');mount.className='mermaid-diagram';
+return {pre:pre,mount:mount,src:pre.textContent||''};
+});
+var seq=0;
+var renderGen=0;
+var lastKey='';
+function pageBg(fallback){
+var els=[document.body,document.documentElement];
+for(var i=0;i<els.length;i++){
+var c=els[i]&&getComputedStyle(els[i]).backgroundColor;
+if(c&&c!=='transparent'&&c!=='rgba(0, 0, 0, 0)')return c;
+}
+return fallback;
+}
+function render(){
+var theme=root.getAttribute('data-theme');
+var dark=theme==='dark'||(!!(mq&&mq.matches)&&theme!=='light');
+var pal=dark?CFG.palettes.dark:CFG.palettes.light;
+var bg=pageBg(pal.bg);
+var key=(dark?'d':'l')+'|'+bg;
+if(key===lastKey)return;
+lastKey=key;
+var gen=++renderGen;
+var font=getComputedStyle(document.body).fontFamily||'sans-serif';
+var nat={useMaxWidth:false};
+mermaid.initialize({
+startOnLoad:false,securityLevel:'strict',theme:'base',
+flowchart:nat,sequence:nat,er:nat,state:nat,class:nat,pie:nat,
+gantt:nat,journey:nat,timeline:nat,gitGraph:nat,mindmap:nat,xyChart:nat,
+quadrantChart:nat,sankey:nat,c4:nat,requirement:nat,block:nat,
+packet:nat,kanban:nat,architecture:nat,radar:nat,
+themeVariables:{background:bg,mainBkg:pal.surface,primaryColor:pal.surface,
+primaryTextColor:pal.text,lineColor:pal.line,primaryBorderColor:pal.border,
+nodeBorder:pal.border,clusterBorder:pal.border,edgeLabelBackground:bg,
+clusterBkg:'rgba(127,127,127,0.07)',titleColor:pal.text,
+darkMode:dark,rowOdd:bg,rowEven:'rgba(127,127,127,0.07)',
+attributeBackgroundColorOdd:bg,attributeBackgroundColorEven:'rgba(127,127,127,0.07)',
+fontSize:'16px',fontFamily:font},
+themeCSS:'.node rect, .node circle, .node polygon, .node path, .cluster rect { stroke-width: 2px; }'
+});
+items.forEach(function(it){
+var id='claude-mermaid-'+seq++;
+mermaid.render(id,it.src).then(function(r){
+if(gen!==renderGen)return;
+var prev=it.pre.previousElementSibling;
+if(prev&&prev.className==='mermaid-diagram'&&prev!==it.mount)return;
+it.mount.innerHTML=r.svg;
+if(!it.mount.parentNode)it.pre.parentNode.insertBefore(it.mount,it.pre);
+it.pre.style.display='none';
+},function(){
+var scratch=document.getElementById(id);
+if(scratch)scratch.parentNode.removeChild(scratch);
+scratch=document.getElementById('d'+id);
+if(scratch)scratch.parentNode.removeChild(scratch);
+if(gen!==renderGen)return;
+if(it.mount.parentNode)it.mount.parentNode.removeChild(it.mount);
+it.pre.style.display='';
+});
+});
+}
+render();
+if(mq&&mq.addEventListener)mq.addEventListener('change',render);
+if(typeof MutationObserver!=='undefined')new MutationObserver(render).observe(root,{attributes:true,attributeFilter:['data-theme']});
+})();</script>
+<!--claude-mermaid-runtime-end-->
+</body></html>
